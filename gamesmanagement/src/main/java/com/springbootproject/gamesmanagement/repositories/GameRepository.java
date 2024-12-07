@@ -1,4 +1,4 @@
-package com.springbootproject.repositories;
+package com.springbootproject.gamesmanagement.repositories;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.springbootproject.entities.Game;
-import com.springbootproject.entities.GameType;
+import com.springbootproject.gamesmanagement.entities.Game;
+import com.springbootproject.gamesmanagement.entities.GameType;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {

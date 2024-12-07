@@ -1,4 +1,4 @@
-package com.springbootproject.entities;
+package com.springbootproject.gamesmanagement.entities;
 
 public enum GameType {
     DUEL ("Duel", 2),

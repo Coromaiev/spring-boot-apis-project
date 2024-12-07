@@ -1,10 +1,11 @@
-package com.springbootproject.repositories;
+package com.springbootproject.gamesmanagement.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.springbootproject.entities.Game;
-import com.springbootproject.entities.Participation;
+import com.springbootproject.gamesmanagement.entities.Game;
+import com.springbootproject.gamesmanagement.entities.Participation;
+
 import java.util.List;
 import java.util.Optional;
 

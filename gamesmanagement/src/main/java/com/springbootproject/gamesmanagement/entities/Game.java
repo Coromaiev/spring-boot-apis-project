@@ -1,4 +1,4 @@
-package com.springbootproject.entities;
+package com.springbootproject.gamesmanagement.entities;
 
 import java.util.Date;
 import java.util.List;
