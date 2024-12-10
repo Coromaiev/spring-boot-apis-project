@@ -26,8 +26,8 @@ public class FriendDao implements IFriendDao {
     }
 
     @Override
-    public void deleteByPlayerIdAndFriendId(Long playerId, Long friendId) {
-        friendRepository.deleteByPlayerIdAndFriendId(playerId, friendId);
+    public void deleteByPlayerAndFriend(Player player, Player friend) {
+        friendRepository.deleteByPlayerAndFriend(player, friend);
     }
     
 }
