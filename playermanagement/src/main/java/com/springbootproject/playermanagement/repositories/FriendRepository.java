@@ -14,4 +14,5 @@ import java.util.Optional;
 public interface FriendRepository extends JpaRepository<Friend, Long> {
     public Optional<Friend> findByFrendshipId(Long frendshipId);
     public Optional<List<Friend>> findByPlayer(Player player);
+    public void deleteByPlayerAndFriend(Player player, Player friend);
 }
