@@ -1,12 +1,12 @@
 package com.springbootproject.gamesmanagement.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.springbootproject.gamesmanagement.daos.IGameDao;
 import com.springbootproject.gamesmanagement.daos.IParticipationDao;
-import com.springbootproject.gamesmanagement.daos.impl.ParticipationDao;
 import com.springbootproject.gamesmanagement.dtos.GameMinimalDto;
 import com.springbootproject.gamesmanagement.dtos.ParticipationCreateDto;
 import com.springbootproject.gamesmanagement.dtos.ParticipationDetailsDto;
@@ -15,8 +15,9 @@ import com.springbootproject.gamesmanagement.dtos.ParticipationMinimalDto;
 import com.springbootproject.gamesmanagement.dtos.ParticipationUpdateDto;
 import com.springbootproject.gamesmanagement.entities.Game;
 import com.springbootproject.gamesmanagement.entities.Participation;
-import com.springbootproject.gamesmanagement.repositories.ParticipationRepository;
 import com.springbootproject.gamesmanagement.services.IParticipationService;
+
+import jakarta.persistence.NoResultException;
 
 public class ParticipationService implements IParticipationService {
 
@@ -36,37 +37,77 @@ public class ParticipationService implements IParticipationService {
 
     @Override
     public ParticipationDetailsDto getParticipationDetails(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getParticipationDetails'");
+        Participation foundParticipation = participationDao.findById(id);
+        if (foundParticipation == null) {
+            throw new IllegalArgumentException("Participation not found for id " + id);
+        }
+        return convertToDetailsDto(foundParticipation);
     }
 
     @Override
     public ParticipationDto getParticipationOfPlayerForGame(Long playerId, Long gameId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getParticipationOfPlayerForGame'");
+        Game associatedGame = gameDao.findById(gameId);
+        if (associatedGame == null) {
+            throw new IllegalArgumentException("Game not found for id " + gameId);
+        }
+        Participation participation = participationDao.findByPlayerIdAndGame(playerId, associatedGame);
+        if (participation == null) {
+            throw new NoResultException("No participation found for player id " + playerId + " and game " + gameId);
+        }
+        return convertToDto(participation);
     }
 
     @Override
     public List<ParticipationMinimalDto> getParticipationsOfPlayer(Long playerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getParticipationsOfPlayer'");
+        List<Participation> participations = participationDao.findByPlayerId(playerId);
+        if (participations.size() == 0) {
+            throw new NoResultException("No participations found for player " + playerId);
+        }
+        return new ArrayList<ParticipationMinimalDto>() {{
+            for (Participation participation : participations) {
+                add(convertToMinimalDto(participation));
+            }
+        }};
     }
 
     @Override
     public List<ParticipationMinimalDto> getParticipationsOfGame(Long gameId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getParticipationsOfGame'");
+        Game foundGame = gameDao.findById(gameId);
+        if (foundGame == null) {
+            throw new NoResultException("No game found with id " + gameId);
+        }
+        return new ArrayList<ParticipationMinimalDto>() {{
+            for (Participation participation : participationDao.findByGame(foundGame)) {
+                add(convertToMinimalDto(participation));
+            }
+        }};
     }
 
     @Override
     public List<ParticipationMinimalDto> getParticipationOfPlayerWithVictory(Long playerId, boolean victory) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getParticipationOfPlayerWithVictory'");
+        List<Participation> participations = participationDao.findByPlayerIdAndVictory(playerId, victory);
+        if (participations.size() == 0) {
+            throw new NoResultException("No game found for player with id " + playerId + " and victory status set to " + victory);
+        }
+        return new ArrayList<ParticipationMinimalDto>() {{
+            for (Participation participation : participations) {
+                add(convertToMinimalDto(participation));
+            }
+        }};
     }
 
     @Override
     public ParticipationDto createParticipation(ParticipationCreateDto newParticipation) {
-        
+        Game associatedGame = gameDao.findById(newParticipation.getGameId());
+        if (associatedGame == null) {
+            throw new IllegalArgumentException("Game with id " + newParticipation.getGameId() + " not found");
+        }
+        Participation participation = new Participation();
+        participation.setGame(associatedGame);
+        participation.setPlayerId(newParticipation.getPlayerId());
+        participation.setScore(newParticipation.getScore());
+        participation.setVictory(newParticipation.isVictory());
+        return convertToDto(participation);
     }
 
     @Override

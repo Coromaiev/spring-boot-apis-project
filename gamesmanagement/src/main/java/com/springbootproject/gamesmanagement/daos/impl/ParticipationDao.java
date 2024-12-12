@@ -39,5 +39,15 @@ public class ParticipationDao implements IParticipationDao {
     public List<Participation> findByPlayerIdAndVictory(Long playerId, boolean victory) {
         return participationRepository.findByPlayerIdAndVictory(playerId, victory).orElse(new ArrayList<Participation>(0));
     }
+
+    @Override
+    public Participation save(Participation participation) {
+        return participationRepository.save(participation);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        participationRepository.deleteById(id);
+    }
     
 }

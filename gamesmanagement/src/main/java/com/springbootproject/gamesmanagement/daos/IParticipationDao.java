@@ -11,6 +11,8 @@ public interface IParticipationDao {
     public List<Participation> findByPlayerId(Long playerId);
     public List<Participation> findByGame(Game game);
     public List<Participation> findByPlayerIdAndVictory(Long playerId, boolean victory);
+    public Participation save(Participation participation);
+    public void deleteById(Long id);
 
 
 }

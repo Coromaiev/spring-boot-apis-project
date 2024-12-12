@@ -34,4 +34,14 @@ public class GameDao implements IGameDao {
     public void deleteById(Long id) {
         gameRepository.deleteById(id);
     }
+
+    @Override
+    public List<Game> findAll() {
+        return gameRepository.findAll();
+    }
+
+    @Override
+    public Game save(Game game) {
+        return gameRepository.save(game);
+    }
 }
