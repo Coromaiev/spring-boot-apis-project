@@ -12,7 +12,9 @@ import java.util.Optional;
 
 @Repository
 public interface FriendRepository extends JpaRepository<Friend, Long> {
-    public Optional<Friend> findByFrendshipId(Long frendshipId);
+    public Optional<Friend> findByFriendshipId(Long frendshipId);
+    public Optional<Friend> findByPlayerAndFriend(Player player, Player friend);
     public Optional<List<Friend>> findByPlayer(Player player);
     public void deleteByPlayerAndFriend(Player player, Player friend);
+    public void deleteByFriendshipId(Long id);
 }

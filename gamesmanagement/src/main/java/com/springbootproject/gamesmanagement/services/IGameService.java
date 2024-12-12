@@ -2,6 +2,8 @@ package com.springbootproject.gamesmanagement.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.springbootproject.gamesmanagement.dtos.GameCreateDto;
 import com.springbootproject.gamesmanagement.dtos.GameDetailsDto;
 import com.springbootproject.gamesmanagement.dtos.GameDto;

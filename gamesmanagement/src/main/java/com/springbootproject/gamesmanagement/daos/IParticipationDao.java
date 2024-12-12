@@ -13,6 +13,7 @@ public interface IParticipationDao {
     public List<Participation> findByPlayerIdAndVictory(Long playerId, boolean victory);
     public Participation save(Participation participation);
     public void deleteById(Long id);
+    public void deleteByPlayerIdAndGame(Long playerId, Game game);
 
 
 }

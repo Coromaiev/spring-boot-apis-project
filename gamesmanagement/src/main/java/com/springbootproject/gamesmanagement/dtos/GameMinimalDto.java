@@ -1,5 +1,6 @@
 package com.springbootproject.gamesmanagement.dtos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.springbootproject.gamesmanagement.entities.GameType;
@@ -18,5 +19,5 @@ import lombok.Setter;
 public class GameMinimalDto {
     private Long gameId;
     private GameType gameType;
-    private LocalDateTime date;
+    private LocalDate date;
 }

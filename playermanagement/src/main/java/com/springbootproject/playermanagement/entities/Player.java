@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,6 +24,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "player")
 public class Player {
+    public static final long LEVEL_SCORE_CAP = 50;
+    public static final double LEVEL_CURVE_FACTOR = 1.02;
+
     @Column(name = "player_id")
     @Getter
     @Setter
@@ -57,7 +61,7 @@ public class Player {
 
     @Getter
     @Setter
-    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Friend> friends;
 }
 

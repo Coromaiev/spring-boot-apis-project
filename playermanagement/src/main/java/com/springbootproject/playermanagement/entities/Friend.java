@@ -26,7 +26,7 @@ public class Friend {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long frendshipId;
+    private Long friendshipId;
 
     @Getter
     @Setter

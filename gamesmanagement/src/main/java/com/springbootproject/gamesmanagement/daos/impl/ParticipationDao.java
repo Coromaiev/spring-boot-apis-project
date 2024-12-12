@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.springbootproject.gamesmanagement.daos.IParticipationDao;
 import com.springbootproject.gamesmanagement.entities.Game;
 import com.springbootproject.gamesmanagement.entities.Participation;
 import com.springbootproject.gamesmanagement.repositories.ParticipationRepository;
 
+@Repository
 public class ParticipationDao implements IParticipationDao {
     
     @Autowired
@@ -47,7 +49,12 @@ public class ParticipationDao implements IParticipationDao {
 
     @Override
     public void deleteById(Long id) {
-        participationRepository.deleteById(id);
+        participationRepository.deleteByParticipationId(id);
+    }
+
+    @Override
+    public void deleteByPlayerIdAndGame(Long playerId, Game game) {
+        participationRepository.deleteByPlayerIdAndGame(playerId, game);
     }
     
 }

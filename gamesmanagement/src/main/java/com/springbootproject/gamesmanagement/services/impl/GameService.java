@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.springbootproject.gamesmanagement.daos.impl.GameDao;
 import com.springbootproject.gamesmanagement.dtos.GameCreateDto;
@@ -19,6 +20,7 @@ import com.springbootproject.gamesmanagement.services.IGameService;
 
 import jakarta.persistence.NoResultException;
 
+@Service
 public class GameService implements IGameService {
 
     @Autowired
@@ -110,6 +112,8 @@ public class GameService implements IGameService {
     @Override
     public GameDto createGame(GameCreateDto newGame) {
         Game gameToCreate = convertToEntity(newGame);
+        System.out.println(gameToCreate + " in service");
+        gameDao.save(gameToCreate);
         return convertToDto(gameToCreate);
     }
 
@@ -119,6 +123,9 @@ public class GameService implements IGameService {
         if (foundGame == null) {
             throw new NoResultException("No game found with id " + updatedGame.getId());
         }
+        foundGame.setDate(updatedGame.getDate());
+        foundGame.setGameType(updatedGame.getGameType());
+        foundGame.setMaxScore(updatedGame.getMaxScore());
         gameDao.save(foundGame);
         return convertToDto(foundGame);
     }
@@ -177,12 +184,14 @@ public class GameService implements IGameService {
     }
 
     private Game convertToEntity(GameCreateDto gameDto) {
+        System.out.println(gameDto + " dto in conversion");
         Game newGame = new Game();
-        newGame.setDate(newGame.getDate());
-        newGame.setGameType(newGame.getGameType());
-        newGame.setHostId(newGame.getHostId());
-        newGame.setMaxScore(newGame.getMaxScore());
+        newGame.setDate(gameDto.getDate());
+        newGame.setGameType(gameDto.getGameType());
+        newGame.setHostId(gameDto.getHostId());
+        newGame.setMaxScore(gameDto.getMaxScore());
         newGame.setParticipations(new ArrayList<Participation>());
+        System.out.println(newGame + " in conversion");
         return newGame;
     }
 }
