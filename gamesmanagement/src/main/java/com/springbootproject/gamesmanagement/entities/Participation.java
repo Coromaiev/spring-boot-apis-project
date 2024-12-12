@@ -1,4 +1,4 @@
-package com.springbootproject.entities;
+package com.springbootproject.gamesmanagement.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
