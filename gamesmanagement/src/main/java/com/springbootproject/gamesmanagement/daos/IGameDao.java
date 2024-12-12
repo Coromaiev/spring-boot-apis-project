@@ -9,6 +9,7 @@ public interface IGameDao {
     public Game findById(Long id);
     public List<Game> findByGameType(GameType gameType);
     public List<Game> findByHostId(Long hostId);
+    public Game save(Game game);
     public void deleteById(Long id);
 
 }
