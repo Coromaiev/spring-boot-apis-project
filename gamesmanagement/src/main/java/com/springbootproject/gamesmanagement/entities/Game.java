@@ -1,5 +1,6 @@
 package com.springbootproject.gamesmanagement.entities;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class Game {
     @Column(name = "date")
     @Getter
     @Setter
-    private Date date;
+    private LocalDateTime date;
 
     @Column(name = "max_score")
     @Getter
