@@ -1,5 +1,6 @@
 package com.springbootproject.gamesmanagement.dtos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.springbootproject.gamesmanagement.entities.GameType;
@@ -17,8 +18,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class GameUpdateDto {
     private Long id;
-    private LocalDateTime date;
+    private LocalDate date;
     private int maxScore;
-    private Long hostId;
     private GameType gameType;
 }

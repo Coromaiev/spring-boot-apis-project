@@ -18,4 +18,5 @@ public interface IParticipationService {
     public ParticipationDto createParticipation(ParticipationCreateDto newParticipation);
     public ParticipationDto updateParticipation(ParticipationUpdateDto participation);
     public void deleteParticipationWithId(Long participationId);
+    public void deleteParticipationWithPlayerAndGame(Long playerId, Long gameid);
 }

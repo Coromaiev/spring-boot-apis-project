@@ -19,7 +19,7 @@ public class Participation {
     @Setter
     private Long participationId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "game_id", nullable = false)
     @Getter
     @Setter

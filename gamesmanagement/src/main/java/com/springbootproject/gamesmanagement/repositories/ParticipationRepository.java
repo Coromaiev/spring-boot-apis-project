@@ -17,4 +17,6 @@ public interface ParticipationRepository extends JpaRepository<Participation, Lo
     public Optional<List<Participation>> findByGame(Game game);
     public Optional<Participation> findByPlayerIdAndGame(Long playerId, Game game);
     public Optional<List<Participation>> findByPlayerIdAndVictory(Long playerId, boolean victory);
+    public void deleteByParticipationId(Long participationid);
+    public void deleteByPlayerIdAndGame(Long playerId, Game game);
 }

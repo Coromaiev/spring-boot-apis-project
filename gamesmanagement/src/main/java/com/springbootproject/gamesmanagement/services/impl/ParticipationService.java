@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.springbootproject.gamesmanagement.daos.IGameDao;
 import com.springbootproject.gamesmanagement.daos.IParticipationDao;
@@ -19,6 +20,7 @@ import com.springbootproject.gamesmanagement.services.IParticipationService;
 
 import jakarta.persistence.NoResultException;
 
+@Service
 public class ParticipationService implements IParticipationService {
 
     @Autowired
@@ -98,15 +100,12 @@ public class ParticipationService implements IParticipationService {
 
     @Override
     public ParticipationDto createParticipation(ParticipationCreateDto newParticipation) {
-        Game associatedGame = gameDao.findById(newParticipation.getGameId());
-        if (associatedGame == null) {
-            throw new IllegalArgumentException("Game with id " + newParticipation.getGameId() + " not found");
+        System.out.println(newParticipation);
+        if (participationDao.findByPlayerIdAndGame(newParticipation.getPlayerId(), gameDao.findById(newParticipation.getGameId())) != null) {
+            throw new IllegalArgumentException("Player " + newParticipation.getPlayerId() + " already participates in game " + newParticipation.getGameId());
         }
-        Participation participation = new Participation();
-        participation.setGame(associatedGame);
-        participation.setPlayerId(newParticipation.getPlayerId());
-        participation.setScore(newParticipation.getScore());
-        participation.setVictory(newParticipation.isVictory());
+        Participation participation = convertToEntity(newParticipation);
+        participationDao.save(participation);
         return convertToDto(participation);
     }
 
@@ -131,13 +130,26 @@ public class ParticipationService implements IParticipationService {
         participationDao.deleteById(participationId);
     }
 
+    @Override
+    public void deleteParticipationWithPlayerAndGame(Long playerId, Long gameId) {
+        Game associatedGame = gameDao.findById(gameId);
+        if (associatedGame == null) {
+            throw new IllegalArgumentException("Game not found for id " + gameId);
+        }
+        Participation participation = participationDao.findByPlayerIdAndGame(playerId, associatedGame);
+        if (participation == null) {
+            throw new NoResultException("No participation found for player id " + playerId + " and game " + gameId);
+        }
+        participationDao.deleteByPlayerIdAndGame(playerId, associatedGame);
+    }
+
     private ParticipationDto convertToDto(Participation participation) {
         ParticipationDto participationDto = new ParticipationDto();
         participationDto.setGameId(participation.getGame().getId());
-        participation.setParticipationId(participation.getParticipationId());
-        participation.setPlayerId(participation.getPlayerId());
-        participation.setScore(participation.getScore());
-        participation.setVictory(participation.isVictory());
+        participationDto.setParticipationId(participation.getParticipationId());
+        participationDto.setPlayerId(participation.getPlayerId());
+        participationDto.setScore(participation.getScore());
+        participationDto.setVictory(participation.isVictory());
         return participationDto;
     }
     
@@ -165,12 +177,16 @@ public class ParticipationService implements IParticipationService {
 
     }
 
-    // private Participation convertToEntity(ParticipationCreateDto participationDto, Game associatedGame) {
-    //     Participation participation = new Participation();
-    //     participation.setGame(associatedGame);
-    //     participation.setPlayerId(participationDto.getPlayerId());
-    //     participation.setScore(participationDto.getScore());
-    //     participation.setVictory(participationDto.isVictory());
-    //     return participation;
-    // }
+    private Participation convertToEntity(ParticipationCreateDto participationDto) {
+        Game associatedGame = gameDao.findById(participationDto.getGameId());
+        if (associatedGame == null) {
+            throw new IllegalArgumentException("Game with id " + participationDto.getGameId() + " not found");
+        }
+        Participation participation = new Participation();
+        participation.setGame(associatedGame);
+        participation.setPlayerId(participationDto.getPlayerId());
+        participation.setScore(participationDto.getScore());
+        participation.setVictory(participationDto.isVictory());
+        return participation;
+    }
 }

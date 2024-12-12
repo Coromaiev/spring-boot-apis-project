@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.springbootproject.gamesmanagement.daos.IGameDao;
 import com.springbootproject.gamesmanagement.entities.Game;
 import com.springbootproject.gamesmanagement.entities.GameType;
 import com.springbootproject.gamesmanagement.repositories.GameRepository;
 
+@Repository
 public class GameDao implements IGameDao {
     
     @Autowired
@@ -42,6 +44,7 @@ public class GameDao implements IGameDao {
 
     @Override
     public Game save(Game game) {
+        System.out.println(game + " in dao");
         return gameRepository.save(game);
     }
 }
